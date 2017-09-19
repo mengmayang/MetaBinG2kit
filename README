@@ -1,0 +1,58 @@
+#MetaBinG2kit
+######This software includes the source file of MetaBinG2 and the additional file designed for statistics and visualization.	
+
+######The requirment of MetaBinG2:
+    One GPU card 
+    CUDA Compiler 
+    Library:cudart and cublas
+    perl (required by statistics part and visualization part).
+
+##Install
+	make
+	tar -xvzf MetaBinG2kit.zip
+	cd MetaBinG2kit
+
+##Classify
+	./runMetaBinG2 -i [FASTA file] -o [Outfile name] -d [Database]
+	
+##Combine the statstic results and generate file for visualization
+(1)Select samples to compare
+	create sampleList
+		sample1.out.stats
+		sample2.out.stats
+		sample3.out.stats
+		...
+
+(2.1)Generate statistic file for visualization
+	perl stats.all.pl sampleList all.stats
+	(all.stats can be upload in MetaBinG2's website to generate the visualization part.)
+
+(2.2)Generate statictic file and the visualization part
+	perl stats.all.pl sampleList all.stats p
+	(You can check the visualization part in index.html)
+	
+
+##Example
+We have 3 samples:SRR3438907.fa, SRR3438908.fa, SRR3438946.fa in example directory.
+
+###1.Classify and get community composition structure of each sample.
+
+	./runMetaBinG2 -i ./example/SRR3438907.fa -o ./example/SRR3438907.out -d db
+	./runMetaBinG2 -i ./example/SRR3438908.fa -o ./example/SRR3438908.out -d db
+	./runMetaBinG2 -i ./example/SRR3438946.fa -o ./example/SRR3438946.out -d db
+
+###2.Select samples to compare
+
+	create sample.list:
+		./example/SRR3438907.out.stats
+		./example/SRR3438908.out.stats
+		./example/SRR3438946.out.stats
+
+###3.Integration and visualization
+	perl stats.all.pl ./example/sample.list ./example/all.stats
+	or
+	perl stats.all.pl ./example/sample.list ./example/all.stats p
+
+(i) all.stats can be used in the MetaBinG2 website
+(ii)When you select the parameter 'p', you will get the visualization result and it can be checked though index.html. Please be sure that the ref dir(in MetaBinG2kit) and the stats.all.pl are in the same directory.
+
