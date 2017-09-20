@@ -569,7 +569,7 @@ int main(int argc,char ** argv){
 		statsNum=(int *)malloc(mrow*threadNum*sizeof(int));
 
 
-	    for(int j=0;j<10;j++){
+	    for(int t=0;t<10;t++){
 
 	    	for(int i=0;i<mrow*threadNum;i++){
 				statsNum[i]=0;
@@ -577,7 +577,7 @@ int main(int argc,char ** argv){
 
 			float BC=0;
 
-	    	if(j>=0){
+	    	if(t>=9){
 	    		flag=1;
 	    	}
 			
