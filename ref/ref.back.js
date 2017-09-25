@@ -13,6 +13,9 @@ angular.module('app.controllers', ['PlotModule']);
 		$scope.type=0;
 		$scope.typeName="Pie";
 		$scope.barlevel="phylum";
+		$scope.content=s;
+
+		EchartPlotPie();
 
 		function PlotFun(){
 			var t=$scope.type;
@@ -36,7 +39,6 @@ angular.module('app.controllers', ['PlotModule']);
 			}else if(t==2){
 				$scope.typeName="Stack";
 			}
-			console.log($scope.typeName);
 		}
 
 		function selectLevel(barlevel){
@@ -48,7 +50,7 @@ angular.module('app.controllers', ['PlotModule']);
 				alert("please input the stats content");
 			}else{
 				var level=level;
-				var speciesArr=$scope.content.split("\n");
+				var speciesArr=$scope.content.split("=M=");
 				var speciesNum=speciesArr.length;
 				var header=speciesArr[0].split("\t");
 				var headerNum=header.length;
@@ -103,7 +105,6 @@ angular.module('app.controllers', ['PlotModule']);
 					for(var i=1;i<headerNum;i++){
 						headerIndexArr.push(header[i]);// The number of samples
 					}
-					console.log(headerIndexArr);
 
 					var taxNameArr=[];
 					
@@ -124,8 +125,6 @@ angular.module('app.controllers', ['PlotModule']);
 						serieobj.data=getTaxInfo(level,i1);
 						seriesArr.push(serieobj);
 					}
-					console.log(seriesArr);
-					//对n个样本取每个物种的平均数再排序
 					var i_sort;
 					var data_sum=[];
 					var data_sum_index=[];
@@ -161,7 +160,6 @@ angular.module('app.controllers', ['PlotModule']);
 					for(i=0;i<data_sum_index.length;i++){
 						taxNameUniq_new.push(taxNameUniq[data_sum_index[i]]);
 					}
-					console.log(taxNameUniq_new);
 
 					var j;
 					var j1;
@@ -185,7 +183,6 @@ angular.module('app.controllers', ['PlotModule']);
 						seriesArr_new.push(serieobj);
 					}
 
-					console.log(seriesArr_new);
 
 					option = {
 					    title: {
@@ -289,7 +286,7 @@ angular.module('app.controllers', ['PlotModule']);
 				alert("please input the stats content");
 			}else{
 				var level=level;
-				var speciesArr=$scope.content.split("\n");
+				var speciesArr=$scope.content.split("=M=");
 				var speciesNum=speciesArr.length;
 				var header=speciesArr[0].split("\t");
 				var headerNum=header.length;
@@ -327,7 +324,6 @@ angular.module('app.controllers', ['PlotModule']);
 							}	
 						}
 					}
-
 					
 					var themeColor=['#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed', '#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0','#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700', '#6b8e23', '#ff00ff', '#3cb371', '#b8860b', '#30e0e0' ];
 
@@ -345,7 +341,7 @@ angular.module('app.controllers', ['PlotModule']);
 					for(var i=1;i<headerNum;i++){
 						headerIndexArr.push(header[i]);// The number of samples
 					}
-					console.log(headerIndexArr);
+
 
 					var taxNameArr=[];
 					
@@ -413,7 +409,6 @@ angular.module('app.controllers', ['PlotModule']);
 					for(i=0;i<data_sum_index.length;i++){
 						taxNameUniq_new.push(taxNameUniq[data_sum_index[i]]);
 					}
-					console.log(taxNameUniq_new);
 
 					var j;
 					var j1;
@@ -442,10 +437,7 @@ angular.module('app.controllers', ['PlotModule']);
 					    	trigger:'axis'
 					    },
 					    legend:{
-					    	data:headerIndexArr,
-                            //add on 9/25/2017
-                            type:'scroll',
-                            top:'15%'
+					    	data:headerIndexArr
 					    },
 					    toolbox:{
 					    	show:true,
@@ -531,7 +523,7 @@ angular.module('app.controllers', ['PlotModule']);
 			if(!$scope.content){
 				alert("please input the stats content");
 			}else{
-				var speciesArr=$scope.content.split("\n");
+				var speciesArr=$scope.content.split("=M=");
 				var speciesNum=speciesArr.length;
 				var header=speciesArr[0].split("\t");
 				var headerNum=header.length;
@@ -542,7 +534,7 @@ angular.module('app.controllers', ['PlotModule']);
 					var colArr=speciesArr[i].split("\t");
 					if(colArr.length!=headerNum){
 						message="Please check the format!";
-						break;
+						break;						
 					}
 				}
 				if(message){
@@ -569,8 +561,7 @@ angular.module('app.controllers', ['PlotModule']);
 							}	
 						}
 					}
-					// console.log(samples);
-
+					
 					var themeColor=['#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed', '#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0','#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700', '#6b8e23', '#ff00ff', '#3cb371', '#b8860b', '#30e0e0' ];
 
 					var divID=[];
@@ -604,49 +595,23 @@ angular.module('app.controllers', ['PlotModule']);
 					var Familyfirstcolor=[];
 					var Genusfirstcolor=[];
 					var Speciesfirstcolor=[];
-					var lastNameOrder=[];
-					var Tmp=[];
 					for(var i1=0;i1<divID.length;i1++){
 						var index=i1+1;
 						if(index<=1){
-							Tmp=getTaxInfo("phylum",1,index,Phylumfirstcolor,0)
-							Phylumfirstcolor=Tmp.refcolor;
-							lastNameOrder=Tmp.lastNameOrder;
-							Tmp=getTaxInfo("class",2,index,Classfistcolor,lastNameOrder);
-							Classfirstcolor=Tmp.refcolor;
-							lastNameOrder=Tmp.lastNameOrder;
-							Tmp=getTaxInfo("order",3,index,Orderfirstcolor,lastNameOrder);
-							Orderfirstcolor=Tmp.refcolor;
-							lastNameOrder=Tmp.lastNameOrder;
-							Tmp=getTaxInfo("family",4,index,Familyfirstcolor,lastNameOrder);
-							Familyfirstcolor=Tmp.refcolor;
-							lastNameOrder=Tmp.lastNameOrder;
-							Tmp=getTaxInfo("genus",5,index,Genusfirstcolor,lastNameOrder)
-							Genusfirstcolor=Tmp.refcolor;
-							lastNameOrder=Tmp.lastNameOrder;
-							Tmp=getTaxInfo("species",6,index,Speciesfirstcolor,lastNameOrder);
-							Speciesfirstcolor=Tmp.refcolor;
+							Phylumfirstcolor=getTaxInfo("phylum",1,index,Phylumfirstcolor).refcolor;
+							Classfirstcolor=getTaxInfo("class",2,index,Classfistcolor).refcolor;
+							Orderfirstcolor=getTaxInfo("order",3,index,Orderfirstcolor).refcolor;
+							Familyfirstcolor=getTaxInfo("family",4,index,Familyfirstcolor).refcolor;
+							Genusfirstcolor=getTaxInfo("genus",5,index,Genusfirstcolor).refcolor;
+							Speciesfirstcolor=getTaxInfo("species",6,index,Speciesfirstcolor).refcolor;
 						}
-						var TmpDataObj=getTaxInfo("phylum",1,index,Phylumfirstcolor,0);
-						var phylumData=TmpDataObj.outData;
-						lastNameOrder=TmpDataObj.lastNameOrder;
-						TmpDataObj=getTaxInfo("class",2,index,Classfirstcolor,lastNameOrder);
-						var classData=TmpDataObj.outData;
-						lastNameOrder=TmpDataObj.lastNameOrder;
-						TmpDataObj=getTaxInfo("order",3,index,Orderfirstcolor,lastNameOrder);
-						var orderData=TmpDataObj.outData;
-						lastNameOrder=TmpDataObj.lastNameOrder;
-						TmpDataObj=getTaxInfo("family",4,index,Familyfirstcolor,lastNameOrder);
-						var familyData=TmpDataObj.outData;
-						lastNameOrder=TmpDataObj.lastNameOrder;
-						TmpDataObj=getTaxInfo("genus",5,index,Genusfirstcolor,lastNameOrder);
-						var genusData=TmpDataObj.outData;
-						lastNameOrder=TmpDataObj.lastNameOrder;
-						TmpDataObj=getTaxInfo("species",6,index,Speciesfirstcolor,lastNameOrder);
-						var speciesData=TmpDataObj.outData;
+						var phylumData=getTaxInfo("phylum",1,index,Phylumfirstcolor).outData;
+						var classData=getTaxInfo("class",2,index,Classfirstcolor).outData;
+						var orderData=getTaxInfo("order",3,index,Orderfirstcolor).outData;
+						var familyData=getTaxInfo("family",4,index,Familyfirstcolor).outData;
+						var genusData=getTaxInfo("genus",5,index,Genusfirstcolor).outData;
+						var speciesData=getTaxInfo("species",6,index,Speciesfirstcolor).outData;
 
-						// var speciesData=speciesData1.slice(0,357);
-						// console.log(speciesData);
 						option = {
 							title:{
 								text:(i1+1),
@@ -750,7 +715,7 @@ angular.module('app.controllers', ['PlotModule']);
 					}
 
 
-					function getTaxInfo(level,l,index,firstcolor,lastNameOrder){
+					function getTaxInfo(level,l,index,firstcolor){
 						var phylum=[];
 						phylumUniq=[];
 						var phylumP=[];
@@ -758,7 +723,6 @@ angular.module('app.controllers', ['PlotModule']);
 						if(index>1){
 							refcolor=firstcolor;
 						}
-						// console.log(samples);
 						for(i=0;i<samples.length;i++){
 							if(samples[i].index==index && samples[i].level==level){
 								var obj={};
@@ -769,18 +733,14 @@ angular.module('app.controllers', ['PlotModule']);
 								phylum.push(obj);
 							}
 						}
+
 						phylumUniq=phylumUniq.unique().sort();
 
 						var cumPercentage=0;
 						for(i=0;i<phylumUniq.length;i++){
 							var obj={};
-							// if(level=="phylum"){
-							// 	obj.name=phylumUniq[i];
-							// }else{
-							// 	var tmpArr=phylumUniq[i].split("\_");
-							// 	obj.name=tmpArr[tmpArr.length-2]+"\_"+tmpArr[tmpArr.length-1];
-							// }
-							obj.name=phylumUniq[i];
+							var tmpArr=phylumUniq[i].split("\_");
+							obj.name=tmpArr[tmpArr.length-1];
 							var value=0;
 							var percent=0.0;
 							for(j=0;j<phylum.length;j++){
@@ -806,61 +766,10 @@ angular.module('app.controllers', ['PlotModule']);
 							}
 							phylumP.push(obj);
 						}
-						// console.log("lastNameOrder:"+lastNameOrder);
-						if(lastNameOrder==0){
-							var phylumP1=phylumP;
-							for(i=0;i<phylumP1.length;i++){
-								var tmp={};
-								for(j=(i+1);j<phylumP1.length;j++){
-									if(parseInt(phylumP1[i].value)<parseInt(phylumP1[j].value)){
-										tmp=phylumP1[i];
-										phylumP1[i]=phylumP1[j];
-										phylumP1[j]=tmp;
-									}
-								}
-							}
-
-							phylumP=phylumP1;
-							
-						}else{
-							var phylumP1=[];
-							var group=[];
-							
-							for(var i=0;i<lastNameOrder.length;i++){
-								for(var j=0;j<phylumP.length;j++){
-									if(phylumP[j].name.indexOf(lastNameOrder[i])>=0){
-										group.push(phylumP[j]);
-									}
-								}
-								
-								for(var p=0;p<group.length;p++){
-									var tmp={};
-									for(var q=(p+1);q<group.length;q++){
-										if(parseInt(group[p].value)<parseInt(group[q].value)){
-											tmp=group[p];
-											group[p]=group[q];
-											group[q]=tmp;
-										}
-									}
-								}
-
-								for(var i1=0;i1<group.length;i1++){
-									phylumP1.push(group[i1]);
-								}
-								
-								group=[];
-							}
-							phylumP=phylumP1;
-						}
-
 						var phylumData=[];
-						var phylumName=[];
 						for(i=0;i<phylumP.length;i++){
-							phylumName.push(phylumP[i].name);
 							var Ele={};
-							var tmpArr=phylumP[i].name.split("\_");
-							// Ele.name=phylumP[i].name;
-							Ele.name=tmpArr[tmpArr.length-1];
+							Ele.name=phylumP[i].name;
 							Ele.value=phylumP[i].value;
 							var item_n={};
 							item_n.color=phylumP[i].color;
@@ -869,12 +778,9 @@ angular.module('app.controllers', ['PlotModule']);
 							Ele.itemStyle=item;
 							phylumData.push(Ele);
 						}
-
 						var out={};
 						out.outData=phylumData;
 						out.refcolor=refcolor;
-						out.lastNameOrder=phylumName;
-						// console.log(level+":"+phylumP.length);
 						return(out);
 					}
 					
@@ -947,17 +853,6 @@ angular.module('app.controllers', ['PlotModule']);
 		 	}
 		 	return res;
 		}
-		
-	}
-})();
-
-(function(){
-	angular
-	.module('DocModule',[])
-	.controller('DocCtrl',DocCtrl);
-	DocCtrl.$inject=['$scope'];
-
-	function DocCtrl($scope){
 		
 	}
 })();
