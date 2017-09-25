@@ -1,5 +1,6 @@
 angular.module('app',['app.controllers']);
 angular.module('app.controllers', ['PlotModule']);
+angular.module('app.controllers', ['PlotModule','DocModule']);
 (function(){
 	angular
 	.module('PlotModule',[])
@@ -571,7 +572,7 @@ angular.module('app.controllers', ['PlotModule']);
 					}
 					// console.log(samples);
 
-					var themeColor=['#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed', '#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0','#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700', '#6b8e23', '#ff00ff', '#3cb371', '#b8860b', '#30e0e0' ];
+					var themeColor=['#00BFFF','#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed', '#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0','#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700', '#6b8e23', '#ff00ff', '#3cb371', '#b8860b', '#30e0e0' ];
 
 					var divID=[];
 					var height=300;
@@ -800,7 +801,7 @@ angular.module('app.controllers', ['PlotModule']);
 								obj.color=refcolor[i];
 							}else{
 								//obj.color=col;
-								obj.color=themeColor[i]//需要修改颜色
+								obj.color=themeColor[i%themeColor.length]//需要修改颜色
 								//refcolor.push(col);
 								refcolor.push(obj.color);
 							}
@@ -809,10 +810,10 @@ angular.module('app.controllers', ['PlotModule']);
 						// console.log("lastNameOrder:"+lastNameOrder);
 						if(lastNameOrder==0){
 							var phylumP1=phylumP;
-							for(i=0;i<phylumP1.length;i++){
+							for(var i=0;i<phylumP1.length;i++){
 								var tmp={};
-								for(j=(i+1);j<phylumP1.length;j++){
-									if(parseInt(phylumP1[i].value)<parseInt(phylumP1[j].value)){
+								for(var j=(i+1);j<phylumP1.length;j++){
+									if(parseFloat(phylumP1[i].percent)<parseFloat(phylumP1[j].percent)){
 										tmp=phylumP1[i];
 										phylumP1[i]=phylumP1[j];
 										phylumP1[j]=tmp;
@@ -828,7 +829,7 @@ angular.module('app.controllers', ['PlotModule']);
 							
 							for(var i=0;i<lastNameOrder.length;i++){
 								for(var j=0;j<phylumP.length;j++){
-									if(phylumP[j].name.indexOf(lastNameOrder[i])>=0){
+									if(phylumP[j].name.indexOf(lastNameOrder[i]+"\_")>=0){
 										group.push(phylumP[j]);
 									}
 								}
@@ -961,5 +962,4 @@ angular.module('app.controllers', ['PlotModule']);
 		
 	}
 })();
-
 
