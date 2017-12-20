@@ -8,10 +8,11 @@
     perl (required by statistics part and visualization part).
 
 ##Install
-	make
 	tar -xvzf MetaBinG2kit.zip
 	cd MetaBinG2kit
-
+	make
+	*compile for the CPU version
+		[user@host]$gcc -o MetaBinG2_CPU MetaBinG2_CPU.c cblas_LINUX.a blas_LINUX.a -lm -lpthread -lgfortran -std=c99
 ##Classify
 	./runMetaBinG2 -i [FASTA file] -o [Outfile name] -d [Database]
 	
