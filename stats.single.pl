@@ -301,7 +301,7 @@ if(scalar(@ARGV)==2){
 	close(FILE);
 
 }else{
-	print "Usage:\n perl stats.pl classify outputname\n";
+	print "Usage:\n perl stats.single.pl classify outputname\n";
 }
 
 sub	getColor{
