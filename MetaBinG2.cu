@@ -645,7 +645,7 @@ int main(int argc,char ** argv){
 						percentl[i]=0;
 					}
 				}
-				printf("j:%d;BC:%.4f\n",j,BC);
+				//printf("j:%d;BC:%.4f\n",j,BC);
 				if(BC<stop){
 					flag=1;
 				}
